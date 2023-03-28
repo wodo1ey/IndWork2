@@ -1,0 +1,68 @@
+#include<iostream>
+#include<stack>
+#include<math.h>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string post_exp;
+    cin >> post_exp;
+    stack <char> stack;
+    int j = 1;
+    int len = post_exp.length();
+    for (int i = 0; i < len; i++)
+    {
+        bool found = alph.find(post_exp[i]) != string::npos;
+        if (found)
+        {
+            stack.push(post_exp[i]);
+        }
+        else
+        {
+            char a = stack.top();
+            stack.pop();
+            char b = stack.top();
+            stack.pop();
+            bool foundb = alph.find(b) != string::npos;
+            if (foundb) cout << "LD " << b << endl;
+            else cout << "LD " << "T" << b << endl;
+            bool founda = alph.find(a) != string::npos;
+            switch (post_exp[i])
+            {
+            case '+':
+                if (founda) cout << "AD " << a << endl;
+                else cout << "AD " << "T" << a << endl;
+                break;
+            case '-':
+                if (founda) cout << "SB " << a << endl;
+                else cout << "SB " << "T" << a << endl;
+                break;
+            case '*':
+                if (founda) cout << "ML " << a << endl;
+                else cout << "ML " << "T" << a << endl;
+                break;
+            case '/':
+                if (founda) cout << "DV " << a << endl;
+                else cout << "DV " << "T" << a << endl;
+                break;
+            }
+            if (i + 1 != len) {
+                bool found2 = alph.find(post_exp[i + 1]) != string::npos;
+                if (found2 == false) {
+                    string t = to_string(j);
+                    stack.push(t[0]);
+                    cout << "ST " << "T" << j << endl;
+                }
+                else {
+                    string t = to_string(j);
+                    stack.push(t[0]);
+                    cout << "ST " << "T" << j << endl;
+                    j++;
+                }
+            }
+        }
+    }
+}
